@@ -1,17 +1,9 @@
 const mongoose = require("mongoose");
 
-const userDetails = new mongoose.Schema({
-    u_details: {
+const linksModel = new mongoose.Schema({
+    uid: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "user",
-    },
-    u_email: {
-        type: String,
-        default: "",
-    },
-    resume: {
-        type: String,
-        default: "",
     },
     linked_in: {
         type: String,
@@ -41,4 +33,4 @@ const userDetails = new mongoose.Schema({
     timestamps: true,
 });
 
-module.exports = mongoose.model("userDetails", userDetails);
+module.exports = mongoose.model("linksModel", linksModel);
