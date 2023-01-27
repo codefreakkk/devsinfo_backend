@@ -35,7 +35,7 @@ const user = mongoose.Schema({
     },
     skill1: {
         type: String,
-        default: "",
+        default: "Enter your skills",
     },
     skill2: {
         type: String,

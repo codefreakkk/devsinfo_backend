@@ -1,11 +1,11 @@
 const userModel = require("../model/userModel");
 const linksModel = require("../model/linksModel");
+const projectModel = require("../model/projectModel");
 
 exports.getUserDetails = async (req, res) => {
   try {
     const uid = req.user._id.toString();
-    const user = await userModel.findOne({ uid });
-
+    const user = await userModel.findOne({ _id: uid });
     if (user) {
       return res.status(200).json({ status: true, data: user });
     } else return res.status(200).json({ status: false, data: {} });
@@ -91,17 +91,29 @@ exports.setCodingLinks = async (req, res) => {
       }
     } else {
       // if links are already saved in db then only update it
-      const updatedLinks = await linksModel.findOneAndUpdate({ uid });
-      // **** need to work on this part not completed
-      // if (updatedLinks) {
-      //   return res
-      //     .status(200)
-      //     .json({ success: true, message: "Data saved successfully" });
-      // } else {
-      //   return res
-      //     .status(400)
-      //     .json({ success: false, message: "Data not updated" });
-      // }
+      const updatedLinks = await linksModel.findOneAndUpdate(
+        { uid },
+        {
+          $set: {
+            uid,
+            linked_in,
+            github,
+            leetcode,
+            gfg,
+            codeforces,
+            codechef,
+          },
+        }
+      );
+      if (updatedLinks) {
+        return res
+          .status(200)
+          .json({ success: true, message: "Data updated successfully" });
+      } else {
+        return res
+          .status(400)
+          .json({ success: false, message: "Data not updated" });
+      }
     }
   } catch (e) {
     console.log(e.message);
@@ -117,11 +129,82 @@ exports.getCodingLinks = async (req, res) => {
       return res.status(200).json({ success: true, data: links });
     } else {
       return res
-        .status(400)
-        .json({ success: false, message: "Some error occured" });
+        .status(200)
+        .json({ success: false, data: {}});
     }
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({ message: "Some error occured" });
+  }
+};
+
+exports.setProject = async (req, res) => {
+  try {
+    const uid = req.user._id.toString();
+    const { project_name, project_link, project_description } = req.body;
+    const project = await projectModel.findOne({ uid });
+    if (project == null) {
+      const projectData = await projectModel.create({
+        uid,
+        project_name,
+        project_link,
+        project_description,
+      });
+      if (projectData) {
+        return res
+          .status(200)
+          .json({ success: true, message: "Data saved successfully" });
+      } else {
+        return res
+          .status(400)
+          .json({ success: false, message: "Some error occured" });
+      }
+    } else {
+      // if not saved update data
+      const projectUpdated = await projectModel.findOneAndUpdate(
+        { uid },
+        {
+          $set: {
+            project_name,
+            project_link,
+            project_description,
+          },
+        }
+      );
+
+      if (projectUpdated) {
+        return res
+          .status(200)
+          .json({ success: true, message: "Data updated successfully" });
+      } else {
+        return res
+          .status(400)
+          .json({ success: false, message: "Some error occured" });
+      }
+    }
+  } catch (e) {
+    console.log(e.message);
+    return res
+      .status(500)
+      .json({ success: true, message: "Some error occured" });
+  }
+};
+
+exports.getProjects = async (req, res) => {
+  try {
+    const uid = req.user._id.toString();
+    const projects = await projectModel.findOne({ uid });
+    if (projects) {
+      return res.status(200).json({ success: true, data: projects });
+    } else {
+      return res
+        .status(200)
+        .json({ success: true, data: {}});
+    }
+  } catch (e) {
+    console.log(e.message);
+    return res
+      .status(500)
+      .json({ success: true, message: "Some error occured" });
   }
 };

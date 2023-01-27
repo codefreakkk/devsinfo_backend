@@ -10,10 +10,12 @@ const auth = async (req, res, next) => {
             req.user = await userModel.findOne({_id: verify.uid});
             next();
         } catch (err) {
+            console.log("Unauthorized user");
             return res.status(401).json({success: false, message: `user not authorized`})
         }
     }
     if (token == null) {
+        console.log("Token null");
         return res.status(401).json({success: false, message: `user not authorized`})
     }
 }
