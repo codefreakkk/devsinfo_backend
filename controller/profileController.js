@@ -8,7 +8,7 @@ exports.getUserDetails = async (req, res) => {
     const user = await userModel.findOne({ _id: uid });
     if (user) {
       return res.status(200).json({ status: true, data: user });
-    } else return res.status(200).json({ status: false, data: {} });
+    } else return res.status(400).json({ status: false, data: {} });
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({ message: "Some error occured" });
@@ -128,7 +128,7 @@ exports.getCodingLinks = async (req, res) => {
     if (links) {
       return res.status(200).json({ success: true, data: links });
     } else {
-      return res.status(200).json({ success: false, data: {} });
+      return res.status(400).json({ success: false, data: {} });
     }
   } catch (e) {
     console.log(e.message);
@@ -171,7 +171,7 @@ exports.getProjects = async (req, res) => {
     if (projects) {
       return res.status(200).json({ success: true, data: projects });
     } else {
-      return res.status(200).json({ success: true, data: {} });
+      return res.status(400).json({ success: true, data: {} });
     }
   } catch (e) {
     console.log(e.message);
