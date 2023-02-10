@@ -15,7 +15,7 @@ app.use("/api/v1", userRoutes);
 app.use("/api/v1", profileRoutes);
 app.use("/api/v1", contactRoutes);
 
-app.get("/", (req, res) => {
+app.get("/home", (req, res) => {
     return res.json({status: true})
 })
 
