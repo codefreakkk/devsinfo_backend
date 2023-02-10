@@ -15,5 +15,9 @@ app.use("/api/v1", userRoutes);
 app.use("/api/v1", profileRoutes);
 app.use("/api/v1", contactRoutes);
 
+app.get("/", (req, res) => {
+    return res.json({status: true})
+})
+
 const PORT = process.env.PORT || 8000
 app.listen(PORT, () => console.log(`server started at ${PORT}`))
