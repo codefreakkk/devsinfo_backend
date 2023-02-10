@@ -7,6 +7,8 @@ exports.login = async (req, res) => {
     const user = await userModel.findOne({ u_email, u_password });
     if (user) {
       const uid = user._id.toString();
+
+      // generate JWT token
       const token = jwt.sign({ uid }, "devsinfo", { expiresIn: "1d" });
       return res.status(200).json({ success: true, token: `Bearer ${token}`, u_email });
     } else
