@@ -10,14 +10,14 @@ const contactRoutes = require("./routes/contactRoutes");
 app.use(express.json());
 app.use(cors({credentials: true, origin: ["http://localhost:3000", "http://localhost:3001", "https://devsinfo.vercel.app"]}));
 
+app.get("/", (req, res) => {
+    return res.json({status: true})
+})
 
 app.use("/api/v1", userRoutes);
 app.use("/api/v1", profileRoutes);
 app.use("/api/v1", contactRoutes);
 
-app.get("/", (req, res) => {
-    return res.json({status: true})
-})
 
 const PORT = process.env.PORT || 8000
 app.listen(PORT, () => console.log(`server started at ${PORT}`))
