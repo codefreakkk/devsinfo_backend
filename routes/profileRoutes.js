@@ -6,7 +6,7 @@ const profileController = require("../controller/profileController");
 
 router.get("/userdetails", auth, profileController.getUserDetails);
 router.get("/codinglinksdetails", auth, profileController.getCodingLinks);
-router.get("/getprojects", auth, profileController.getProjects);
+router.get("/getprojects", profileController.getProjects);
 router.post("/setprofile", auth, profileController.setProfile);
 router.post("/codinglinks", auth, profileController.setCodingLinks);
 router.post("/addprojects", auth, profileController.setProject);
